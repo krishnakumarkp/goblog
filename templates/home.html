@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>My first PHP Website</title>
+    </head>
+    <body>
+        <h2>Admin Page</h2>
+        
+        
+        {{if .User.Authenticated }}
+            Welcome back! {{.User.Username}}
+        {{end}}
+        <!--Display's user name-->
+        <a href="/logout/">Click here to logout</a><br/><br/>
+        {{ range $f := .SuccessMessage }}
+            <p>{{ $f }}</p>
+        {{ end }}
+        <form action="/add/" method="POST">
+           Title: <input type="text" name="title" /> <br/>
+           Description: <input type="text" name="description" /> <br/>
+           Details:
+           <textarea rows="4" cols="50" name="details">
+           </textarea>
+           <br/>
+           Public post? <input type="checkbox" name="public" value="yes" /> <br/>
+           <input type="submit" value="Add Blog"/>
+        </form>
+        <h2 align="center">My list</h2>
+        <table border="1px" width="100%">
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date Posted</th>
+                <th>Time Posted</th>
+                <th>Date Edited</th>
+                <th>Time Edited</th>
+                <th>Public</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        
+            {{range $y, $x := .Blogs }}
+            <tr>
+                <td>{{ $x.ID }}</td>
+                <td>{{ $x.Title}}</td>
+                <td>{{ $x.Description }}</td>
+                <td>{{ $x.CreatedDate }}</td>
+                <td>{{ $x.CreatedTime }}</td>
+                <td>{{ $x.ModifiedDate }}</td>
+                <td>{{ $x.ModifiedTime }}</td>
+                <td>{{ $x.Public }}</td>
+                <td><a href="/edit/{{ $x.ID }}">Edit</a></td>
+                <td><a href="/delete/{{ $x.ID }}">Delete</a></td>
+            </tr>
+            {{end}}
+    
+        </table>
+    </body>
+</html>
